@@ -12,10 +12,10 @@ def index():
         response.set_cookie("secret_number", secret)
         return response
     elif request.method == "POST":
-        guess = request.form.get("number")
+        guess = str(request.form.get("number"))
         secret = request.cookies.get("secret_number")
         if guess == secret:
-            response = make_response(render_template("success.html"))
+            response = make_response(render_template("success.html", number = guess))
             response.set_cookie("last_guess", guess)
             return response
         elif int(guess) > int(secret):
@@ -33,7 +33,7 @@ def index():
 
 @app.route("/about", methods=["GET","POST"])
 def about():
-    guess = request.form.get("number")
+    guess = str(request.form.get("number"))
     secret = request.cookies.get("secret_number")
     if guess == secret:
         response = make_response(render_template("success.html", number = guess))
